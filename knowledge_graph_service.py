@@ -231,7 +231,14 @@ class KnowledgeGraphService:
             all_nodes.update(phone_relations['nodes'])
             all_relations.extend(phone_relations['relations'])
             
-            # 2. 获取用户群体相关的关系
+            # 2. 默认检索产品分类相关的关系
+            product_category = parsed_query.get("product_category", "手机")
+            if product_category:
+                category_relations = self._get_product_category_relations(session, product_category)
+                all_nodes.update(category_relations['nodes'])
+                all_relations.extend(category_relations['relations'])
+            
+            # 3. 获取用户群体相关的关系
             for user_group in parsed_query.get("user_groups", []):
                 user_group_name = self._map_user_group(user_group)
                 if user_group_name:
@@ -239,7 +246,7 @@ class KnowledgeGraphService:
                     all_nodes.update(user_relations['nodes'])
                     all_relations.extend(user_relations['relations'])
             
-            # 3. 获取明确需求相关的关系
+            # 4. 获取明确需求相关的关系
             for need in parsed_query.get("explicit_needs", []):
                 need_nodes = self._find_need_nodes(session, need)
                 for need_node in need_nodes:
@@ -315,6 +322,60 @@ class KnowledgeGraphService:
                 )
                 
                 relations.extend([relation1, relation2])
+        
+        return {"nodes": nodes, "relations": relations}
+    
+    def _get_product_category_relations(self, session, product_category: str) -> Dict[str, Any]:
+        """获取产品分类相关的关系"""
+        nodes = {}
+        relations = []
+        
+        # 查询与产品分类相关的所有Factor节点（如：手机相关的品牌、型号等）
+        query_cypher = f"""
+        MATCH (factor:Factor)
+        WHERE factor.name CONTAINS '{product_category}' 
+           OR factor.name IN ['品牌知名度', '品牌口碑', '技术实力', '生态系统', 
+                              '处理器性能', '内存配置', '存储容量', '系统优化',
+                              '价格区间', '性价比', '优惠活动', '购买时机']
+        OPTIONAL MATCH (factor)-[r]-(related)
+        RETURN factor, r, related
+        LIMIT 50
+        """
+        
+        result = session.run(query_cypher)
+        
+        for record in result:
+            factor = record["factor"]
+            rel = record.get("r")
+            related = record.get("related")
+            
+            if factor:
+                # 添加产品分类相关的Factor节点
+                factor_node = GraphNode(
+                    id=str(factor.element_id),
+                    name=factor.get('name', ''),
+                    labels=list(factor.labels),
+                    properties=dict(factor)
+                )
+                nodes[factor_node.id] = factor_node
+                
+                # 添加相关节点和关系
+                if rel and related:
+                    related_node = GraphNode(
+                        id=str(related.element_id),
+                        name=related.get('name', ''),
+                        labels=list(related.labels),
+                        properties=dict(related)
+                    )
+                    nodes[related_node.id] = related_node
+                    
+                    relation = GraphRelation(
+                        source=factor_node.id,
+                        target=related_node.id,
+                        type=rel.type,
+                        properties=dict(rel)
+                    )
+                    relations.append(relation)
         
         return {"nodes": nodes, "relations": relations}
     

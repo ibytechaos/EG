@@ -1,0 +1,429 @@
+// ==============================================
+// 1. 创建根节点
+// ==============================================
+MERGE (root:Decision {name: "手机购物决策"})
+
+// ==============================================
+// 2. 创建一级阶段节点（Stage）并关联根节点
+// ==============================================
+MERGE (a1:Stage {name: "明确需求"})
+MERGE (a2:Stage {name: "品牌选择"})
+MERGE (a3:Stage {name: "性能评估"})
+MERGE (a4:Stage {name: "价格考虑"})
+MERGE (a5:Stage {name: "外观设计"})
+MERGE (a6:Stage {name: "购买渠道"})
+MERGE (a7:Stage {name: "售后服务"})
+
+MERGE (root)-[:INCLUDES]->(a1)
+MERGE (root)-[:INCLUDES]->(a2)
+MERGE (root)-[:INCLUDES]->(a3)
+MERGE (root)-[:INCLUDES]->(a4)
+MERGE (root)-[:INCLUDES]->(a5)
+MERGE (root)-[:INCLUDES]->(a6)
+MERGE (root)-[:INCLUDES]->(a7)
+
+// ==============================================
+// 3. 创建二级因子节点（Factor）并关联一级阶段
+// ==============================================
+
+// 明确需求下的因子
+MERGE (b1_1:Factor {name: "主要用途"})
+MERGE (b1_2:Factor {name: "使用场景"})
+MERGE (b1_3:Factor {name: "用户群体"})
+MERGE (b1_4:Factor {name: "特殊需求"})
+
+MERGE (a1)-[:CONTAINS]->(b1_1)
+MERGE (a1)-[:CONTAINS]->(b1_2)
+MERGE (a1)-[:CONTAINS]->(b1_3)
+MERGE (a1)-[:CONTAINS]->(b1_4)
+
+// 品牌选择下的因子
+MERGE (b2_1:Factor {name: "品牌知名度"})
+MERGE (b2_2:Factor {name: "品牌口碑"})
+MERGE (b2_3:Factor {name: "技术实力"})
+MERGE (b2_4:Factor {name: "生态系统"})
+
+MERGE (a2)-[:CONTAINS]->(b2_1)
+MERGE (a2)-[:CONTAINS]->(b2_2)
+MERGE (a2)-[:CONTAINS]->(b2_3)
+MERGE (a2)-[:CONTAINS]->(b2_4)
+
+// 性能评估下的因子
+MERGE (b3_1:Factor {name: "处理器"})
+MERGE (b3_2:Factor {name: "内存"})
+MERGE (b3_3:Factor {name: "存储"})
+MERGE (b3_4:Factor {name: "摄像头"})
+MERGE (b3_5:Factor {name: "屏幕"})
+MERGE (b3_6:Factor {name: "电池"})
+MERGE (b3_7:Factor {name: "网络"})
+
+MERGE (a3)-[:CONTAINS]->(b3_1)
+MERGE (a3)-[:CONTAINS]->(b3_2)
+MERGE (a3)-[:CONTAINS]->(b3_3)
+MERGE (a3)-[:CONTAINS]->(b3_4)
+MERGE (a3)-[:CONTAINS]->(b3_5)
+MERGE (a3)-[:CONTAINS]->(b3_6)
+MERGE (a3)-[:CONTAINS]->(b3_7)
+
+// 价格考虑下的因子
+MERGE (b4_1:Factor {name: "预算范围"})
+MERGE (b4_2:Factor {name: "性价比"})
+MERGE (b4_3:Factor {name: "促销活动"})
+MERGE (b4_4:Factor {name: "分期付款"})
+
+MERGE (a4)-[:CONTAINS]->(b4_1)
+MERGE (a4)-[:CONTAINS]->(b4_2)
+MERGE (a4)-[:CONTAINS]->(b4_3)
+MERGE (a4)-[:CONTAINS]->(b4_4)
+
+// 外观设计下的因子
+MERGE (b5_1:Factor {name: "外观颜值"})
+MERGE (b5_2:Factor {name: "机身材质"})
+MERGE (b5_3:Factor {name: "尺寸重量"})
+MERGE (b5_4:Factor {name: "握持手感"})
+
+MERGE (a5)-[:CONTAINS]->(b5_1)
+MERGE (a5)-[:CONTAINS]->(b5_2)
+MERGE (a5)-[:CONTAINS]->(b5_3)
+MERGE (a5)-[:CONTAINS]->(b5_4)
+
+// 购买渠道下的因子
+MERGE (b6_1:Factor {name: "官方渠道"})
+MERGE (b6_2:Factor {name: "电商平台"})
+MERGE (b6_3:Factor {name: "实体店铺"})
+MERGE (b6_4:Factor {name: "渠道可靠性"})
+
+MERGE (a6)-[:CONTAINS]->(b6_1)
+MERGE (a6)-[:CONTAINS]->(b6_2)
+MERGE (a6)-[:CONTAINS]->(b6_3)
+MERGE (a6)-[:CONTAINS]->(b6_4)
+
+// 售后服务下的因子
+MERGE (b7_1:Factor {name: "保修政策"})
+MERGE (b7_2:Factor {name: "维修便利"})
+MERGE (b7_3:Factor {name: "客服质量"})
+MERGE (b7_4:Factor {name: "增值服务"})
+
+MERGE (a7)-[:CONTAINS]->(b7_1)
+MERGE (a7)-[:CONTAINS]->(b7_2)
+MERGE (a7)-[:CONTAINS]->(b7_3)
+MERGE (a7)-[:CONTAINS]->(b7_4)
+
+// ==============================================
+// 4. 创建三级因子节点并关联二级因子
+// ==============================================
+
+// 主要用途下的三级因子
+MERGE (c1_1_1:Factor {name: "日常通讯"})
+MERGE (c1_1_2:Factor {name: "办公学习"})
+MERGE (c1_1_3:Factor {name: "娱乐游戏"})
+MERGE (c1_1_4:Factor {name: "拍照摄影"})
+MERGE (c1_1_5:Factor {name: "商务应用"})
+
+MERGE (b1_1)-[:INCLUDES]->(c1_1_1)
+MERGE (b1_1)-[:INCLUDES]->(c1_1_2)
+MERGE (b1_1)-[:INCLUDES]->(c1_1_3)
+MERGE (b1_1)-[:INCLUDES]->(c1_1_4)
+MERGE (b1_1)-[:INCLUDES]->(c1_1_5)
+
+// 使用场景下的三级因子
+MERGE (c1_2_1:Factor {name: "室内使用"})
+MERGE (c1_2_2:Factor {name: "户外活动"})
+MERGE (c1_2_3:Factor {name: "旅行出差"})
+MERGE (c1_2_4:Factor {name: "运动健身"})
+MERGE (c1_2_5:Factor {name: "驾驶导航"})
+
+MERGE (b1_2)-[:INCLUDES]->(c1_2_1)
+MERGE (b1_2)-[:INCLUDES]->(c1_2_2)
+MERGE (b1_2)-[:INCLUDES]->(c1_2_3)
+MERGE (b1_2)-[:INCLUDES]->(c1_2_4)
+MERGE (b1_2)-[:INCLUDES]->(c1_2_5)
+
+// 用户群体下的三级因子
+MERGE (c1_3_1:Factor {name: "学生群体"})
+MERGE (c1_3_2:Factor {name: "上班族"})
+MERGE (c1_3_3:Factor {name: "老年人"})
+MERGE (c1_3_4:Factor {name: "商务人士"})
+MERGE (c1_3_5:Factor {name: "游戏玩家"})
+MERGE (c1_3_6:Factor {name: "摄影爱好者"})
+
+MERGE (b1_3)-[:INCLUDES]->(c1_3_1)
+MERGE (b1_3)-[:INCLUDES]->(c1_3_2)
+MERGE (b1_3)-[:INCLUDES]->(c1_3_3)
+MERGE (b1_3)-[:INCLUDES]->(c1_3_4)
+MERGE (b1_3)-[:INCLUDES]->(c1_3_5)
+MERGE (b1_3)-[:INCLUDES]->(c1_3_6)
+
+// 特殊需求下的三级因子
+MERGE (c1_4_1:Factor {name: "防水防尘"})
+MERGE (c1_4_2:Factor {name: "长续航"})
+MERGE (c1_4_3:Factor {name: "快充需求"})
+MERGE (c1_4_4:Factor {name: "双卡双待"})
+MERGE (c1_4_5:Factor {name: "大屏需求"})
+MERGE (c1_4_6:Factor {name: "轻薄便携"})
+
+MERGE (b1_4)-[:INCLUDES]->(c1_4_1)
+MERGE (b1_4)-[:INCLUDES]->(c1_4_2)
+MERGE (b1_4)-[:INCLUDES]->(c1_4_3)
+MERGE (b1_4)-[:INCLUDES]->(c1_4_4)
+MERGE (b1_4)-[:INCLUDES]->(c1_4_5)
+MERGE (b1_4)-[:INCLUDES]->(c1_4_6)
+
+// 品牌知名度下的三级因子
+MERGE (c2_1_1:Factor {name: "苹果"})
+MERGE (c2_1_2:Factor {name: "华为"})
+MERGE (c2_1_3:Factor {name: "小米"})
+MERGE (c2_1_4:Factor {name: "OPPO"})
+MERGE (c2_1_5:Factor {name: "vivo"})
+MERGE (c2_1_6:Factor {name: "三星"})
+MERGE (c2_1_7:Factor {name: "荣耀"})
+MERGE (c2_1_8:Factor {name: "魅族"})
+MERGE (c2_1_9:Factor {name: "一加"})
+MERGE (c2_1_10:Factor {name: "realme"})
+
+MERGE (b2_1)-[:INCLUDES]->(c2_1_1)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_2)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_3)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_4)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_5)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_6)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_7)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_8)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_9)
+MERGE (b2_1)-[:INCLUDES]->(c2_1_10)
+
+// 品牌口碑下的三级因子
+MERGE (c2_2_1:Factor {name: "用户评价"})
+MERGE (c2_2_2:Factor {name: "专业评测"})
+MERGE (c2_2_3:Factor {name: "市场份额"})
+MERGE (c2_2_4:Factor {name: "创新能力"})
+MERGE (c2_2_5:Factor {name: "质量可靠性"})
+
+MERGE (b2_2)-[:INCLUDES]->(c2_2_1)
+MERGE (b2_2)-[:INCLUDES]->(c2_2_2)
+MERGE (b2_2)-[:INCLUDES]->(c2_2_3)
+MERGE (b2_2)-[:INCLUDES]->(c2_2_4)
+MERGE (b2_2)-[:INCLUDES]->(c2_2_5)
+
+// 技术实力下的三级因子
+MERGE (c2_3_1:Factor {name: "芯片技术"})
+MERGE (c2_3_2:Factor {name: "系统优化"})
+MERGE (c2_3_3:Factor {name: "拍照算法"})
+MERGE (c2_3_4:Factor {name: "5G技术"})
+MERGE (c2_3_5:Factor {name: "AI能力"})
+
+MERGE (b2_3)-[:INCLUDES]->(c2_3_1)
+MERGE (b2_3)-[:INCLUDES]->(c2_3_2)
+MERGE (b2_3)-[:INCLUDES]->(c2_3_3)
+MERGE (b2_3)-[:INCLUDES]->(c2_3_4)
+MERGE (b2_3)-[:INCLUDES]->(c2_3_5)
+
+// 生态系统下的三级因子
+MERGE (c2_4_1:Factor {name: "应用商店"})
+MERGE (c2_4_2:Factor {name: "云服务"})
+MERGE (c2_4_3:Factor {name: "智能家居"})
+MERGE (c2_4_4:Factor {name: "配件生态"})
+MERGE (c2_4_5:Factor {name: "开发者支持"})
+
+MERGE (b2_4)-[:INCLUDES]->(c2_4_1)
+MERGE (b2_4)-[:INCLUDES]->(c2_4_2)
+MERGE (b2_4)-[:INCLUDES]->(c2_4_3)
+MERGE (b2_4)-[:INCLUDES]->(c2_4_4)
+MERGE (b2_4)-[:INCLUDES]->(c2_4_5)
+
+// 处理器下的三级因子
+MERGE (c3_1_1:Factor {name: "性能跑分"})
+MERGE (c3_1_2:Factor {name: "制程工艺"})
+MERGE (c3_1_3:Factor {name: "CPU架构"})
+MERGE (c3_1_4:Factor {name: "GPU性能"})
+MERGE (c3_1_5:Factor {name: "AI处理能力"})
+MERGE (c3_1_6:Factor {name: "功耗控制"})
+
+MERGE (b3_1)-[:INCLUDES]->(c3_1_1)
+MERGE (b3_1)-[:INCLUDES]->(c3_1_2)
+MERGE (b3_1)-[:INCLUDES]->(c3_1_3)
+MERGE (b3_1)-[:INCLUDES]->(c3_1_4)
+MERGE (b3_1)-[:INCLUDES]->(c3_1_5)
+MERGE (b3_1)-[:INCLUDES]->(c3_1_6)
+
+// 内存下的三级因子
+MERGE (c3_2_1:Factor {name: "运行内存容量"})
+MERGE (c3_2_2:Factor {name: "内存类型"})
+MERGE (c3_2_3:Factor {name: "内存频率"})
+MERGE (c3_2_4:Factor {name: "多任务能力"})
+
+MERGE (b3_2)-[:INCLUDES]->(c3_2_1)
+MERGE (b3_2)-[:INCLUDES]->(c3_2_2)
+MERGE (b3_2)-[:INCLUDES]->(c3_2_3)
+MERGE (b3_2)-[:INCLUDES]->(c3_2_4)
+
+// 存储下的三级因子
+MERGE (c3_3_1:Factor {name: "存储容量"})
+MERGE (c3_3_2:Factor {name: "存储类型"})
+MERGE (c3_3_3:Factor {name: "读写速度"})
+MERGE (c3_3_4:Factor {name: "扩展性"})
+
+MERGE (b3_3)-[:INCLUDES]->(c3_3_1)
+MERGE (b3_3)-[:INCLUDES]->(c3_3_2)
+MERGE (b3_3)-[:INCLUDES]->(c3_3_3)
+MERGE (b3_3)-[:INCLUDES]->(c3_3_4)
+
+// 摄像头下的三级因子
+MERGE (c3_4_1:Factor {name: "主摄像素"})
+MERGE (c3_4_2:Factor {name: "光圈大小"})
+MERGE (c3_4_3:Factor {name: "防抖技术"})
+MERGE (c3_4_4:Factor {name: "变焦能力"})
+MERGE (c3_4_5:Factor {name: "夜拍能力"})
+MERGE (c3_4_6:Factor {name: "前置摄像头"})
+MERGE (c3_4_7:Factor {name: "视频录制"})
+
+MERGE (b3_4)-[:INCLUDES]->(c3_4_1)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_2)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_3)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_4)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_5)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_6)
+MERGE (b3_4)-[:INCLUDES]->(c3_4_7)
+
+// 屏幕下的三级因子
+MERGE (c3_5_1:Factor {name: "屏幕尺寸"})
+MERGE (c3_5_2:Factor {name: "分辨率"})
+MERGE (c3_5_3:Factor {name: "刷新率"})
+MERGE (c3_5_4:Factor {name: "屏幕材质"})
+MERGE (c3_5_5:Factor {name: "色彩准确度"})
+MERGE (c3_5_6:Factor {name: "峰值亮度"})
+MERGE (c3_5_7:Factor {name: "护眼功能"})
+
+MERGE (b3_5)-[:INCLUDES]->(c3_5_1)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_2)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_3)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_4)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_5)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_6)
+MERGE (b3_5)-[:INCLUDES]->(c3_5_7)
+
+// 电池下的三级因子
+MERGE (c3_6_1:Factor {name: "电池容量"})
+MERGE (c3_6_2:Factor {name: "充电功率"})
+MERGE (c3_6_3:Factor {name: "无线充电"})
+MERGE (c3_6_4:Factor {name: "续航表现"})
+MERGE (c3_6_5:Factor {name: "充电速度"})
+MERGE (c3_6_6:Factor {name: "电池健康"})
+
+MERGE (b3_6)-[:INCLUDES]->(c3_6_1)
+MERGE (b3_6)-[:INCLUDES]->(c3_6_2)
+MERGE (b3_6)-[:INCLUDES]->(c3_6_3)
+MERGE (b3_6)-[:INCLUDES]->(c3_6_4)
+MERGE (b3_6)-[:INCLUDES]->(c3_6_5)
+MERGE (b3_6)-[:INCLUDES]->(c3_6_6)
+
+// 网络下的三级因子
+MERGE (c3_7_1:Factor {name: "5G支持"})
+MERGE (c3_7_2:Factor {name: "WiFi标准"})
+MERGE (c3_7_3:Factor {name: "蓝牙版本"})
+MERGE (c3_7_4:Factor {name: "NFC功能"})
+MERGE (c3_7_5:Factor {name: "信号强度"})
+
+MERGE (b3_7)-[:INCLUDES]->(c3_7_1)
+MERGE (b3_7)-[:INCLUDES]->(c3_7_2)
+MERGE (b3_7)-[:INCLUDES]->(c3_7_3)
+MERGE (b3_7)-[:INCLUDES]->(c3_7_4)
+MERGE (b3_7)-[:INCLUDES]->(c3_7_5)
+
+// 预算范围下的三级因子
+MERGE (c4_1_1:Factor {name: "1000元以下"})
+MERGE (c4_1_2:Factor {name: "1000-2000元"})
+MERGE (c4_1_3:Factor {name: "2000-3000元"})
+MERGE (c4_1_4:Factor {name: "3000-4000元"})
+MERGE (c4_1_5:Factor {name: "4000-5000元"})
+MERGE (c4_1_6:Factor {name: "5000-6000元"})
+MERGE (c4_1_7:Factor {name: "6000元以上"})
+
+MERGE (b4_1)-[:INCLUDES]->(c4_1_1)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_2)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_3)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_4)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_5)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_6)
+MERGE (b4_1)-[:INCLUDES]->(c4_1_7)
+
+// 性价比下的三级因子
+MERGE (c4_2_1:Factor {name: "配置性价比"})
+MERGE (c4_2_2:Factor {name: "品牌溢价"})
+MERGE (c4_2_3:Factor {name: "功能实用性"})
+MERGE (c4_2_4:Factor {name: "保值率"})
+
+MERGE (b4_2)-[:INCLUDES]->(c4_2_1)
+MERGE (b4_2)-[:INCLUDES]->(c4_2_2)
+MERGE (b4_2)-[:INCLUDES]->(c4_2_3)
+MERGE (b4_2)-[:INCLUDES]->(c4_2_4)
+
+// 促销活动下的三级因子
+MERGE (c4_3_1:Factor {name: "节日促销"})
+MERGE (c4_3_2:Factor {name: "新品上市优惠"})
+MERGE (c4_3_3:Factor {name: "清仓特价"})
+MERGE (c4_3_4:Factor {name: "会员专享"})
+MERGE (c4_3_5:Factor {name: "套餐优惠"})
+
+MERGE (b4_3)-[:INCLUDES]->(c4_3_1)
+MERGE (b4_3)-[:INCLUDES]->(c4_3_2)
+MERGE (b4_3)-[:INCLUDES]->(c4_3_3)
+MERGE (b4_3)-[:INCLUDES]->(c4_3_4)
+MERGE (b4_3)-[:INCLUDES]->(c4_3_5)
+
+// 分期付款下的三级因子
+MERGE (c4_4_1:Factor {name: "免息期数"})
+MERGE (c4_4_2:Factor {name: "手续费率"})
+MERGE (c4_4_3:Factor {name: "申请门槛"})
+MERGE (c4_4_4:Factor {name: "提前还款"})
+
+MERGE (b4_4)-[:INCLUDES]->(c4_4_1)
+MERGE (b4_4)-[:INCLUDES]->(c4_4_2)
+MERGE (b4_4)-[:INCLUDES]->(c4_4_3)
+MERGE (b4_4)-[:INCLUDES]->(c4_4_4)
+
+// ==============================================
+// 5. 创建因子间的关联关系
+// ==============================================
+
+// 用户群体与特殊需求的关联
+MERGE (c1_3_1)-[:RELATES_TO]->(c1_4_2) // 学生群体 - 长续航
+MERGE (c1_3_1)-[:RELATES_TO]->(c4_1_2) // 学生群体 - 1000-2000元
+MERGE (c1_3_1)-[:RELATES_TO]->(c4_1_3) // 学生群体 - 2000-3000元
+MERGE (c1_3_2)-[:RELATES_TO]->(c1_4_2) // 上班族 - 长续航
+MERGE (c1_3_2)-[:RELATES_TO]->(c1_4_3) // 上班族 - 快充需求
+MERGE (c1_3_3)-[:RELATES_TO]->(c1_4_5) // 老年人 - 大屏需求
+MERGE (c1_3_4)-[:RELATES_TO]->(c1_4_4) // 商务人士 - 双卡双待
+MERGE (c1_3_5)-[:RELATES_TO]->(c3_1_4) // 游戏玩家 - GPU性能
+MERGE (c1_3_6)-[:RELATES_TO]->(c3_4_1) // 摄影爱好者 - 主摄像素
+
+// 主要用途与性能需求的关联
+MERGE (c1_1_3)-[:REQUIRES]->(c3_1_4) // 娱乐游戏 - GPU性能
+MERGE (c1_1_3)-[:REQUIRES]->(c3_2_1) // 娱乐游戏 - 运行内存容量
+MERGE (c1_1_4)-[:REQUIRES]->(c3_4_1) // 拍照摄影 - 主摄像素
+MERGE (c1_1_4)-[:REQUIRES]->(c3_4_5) // 拍照摄影 - 夜拍能力
+MERGE (c1_1_2)-[:REQUIRES]->(c3_6_4) // 办公学习 - 续航表现
+MERGE (c1_1_5)-[:REQUIRES]->(c1_4_4) // 商务应用 - 双卡双待
+
+// 品牌与技术特色的关联
+MERGE (c2_1_1)-[:KNOWN_FOR]->(c2_4_2) // 苹果 - 云服务
+MERGE (c2_1_1)-[:KNOWN_FOR]->(c2_4_3) // 苹果 - 智能家居
+MERGE (c2_1_2)-[:KNOWN_FOR]->(c2_3_4) // 华为 - 5G技术
+MERGE (c2_1_2)-[:KNOWN_FOR]->(c3_4_5) // 华为 - 夜拍能力
+MERGE (c2_1_3)-[:KNOWN_FOR]->(c4_2_1) // 小米 - 配置性价比
+MERGE (c2_1_4)-[:KNOWN_FOR]->(c3_4_7) // OPPO - 视频录制
+MERGE (c2_1_5)-[:KNOWN_FOR]->(c3_4_6) // vivo - 前置摄像头
+
+// 价格区间与配置的关联
+MERGE (c4_1_2)-[:TYPICALLY_INCLUDES]->(c3_2_1) // 1000-2000元 - 运行内存容量
+MERGE (c4_1_3)-[:TYPICALLY_INCLUDES]->(c3_4_1) // 2000-3000元 - 主摄像素
+MERGE (c4_1_4)-[:TYPICALLY_INCLUDES]->(c3_5_3) // 3000-4000元 - 刷新率
+MERGE (c4_1_5)-[:TYPICALLY_INCLUDES]->(c3_1_4) // 4000-5000元 - GPU性能
+MERGE (c4_1_6)-[:TYPICALLY_INCLUDES]->(c3_4_3) // 5000-6000元 - 防抖技术
+
+// 使用场景与功能需求的关联
+MERGE (c1_2_2)-[:REQUIRES]->(c1_4_1) // 户外活动 - 防水防尘
+MERGE (c1_2_3)-[:REQUIRES]->(c1_4_2) // 旅行出差 - 长续航
+MERGE (c1_2_4)-[:REQUIRES]->(c1_4_1) // 运动健身 - 防水防尘
+MERGE (c1_2_5)-[:REQUIRES]->(c3_7_1) // 驾驶导航 - 5G支持
+MERGE (c1_2_5)-[:REQUIRES]->(c1_4_5) // 驾驶导航 - 大屏需求

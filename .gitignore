@@ -69,7 +69,6 @@ Icon?
 ._*
 
 # Data files and sensitive information
-data.txt
 *.csv
 *.json
 *.xlsx
